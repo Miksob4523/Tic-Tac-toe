@@ -150,29 +150,39 @@ public class Game {
      */
     public String checkGameWinner(char [][]grid){
         String result = "None";
-        //Student code goes here ...
+        Character[] symbol = {'x','o'};
+        String [] message = {"X wins", "O wins"};
 
-        for (int i=0; i<3; i++) {
-            for (int j=0; j<3; j++) {
-                if (grid[i][j]!='-') {
-                    if (j == 0) {
-                        if (grid[i][j] == grid[i][j + 1] && grid[i][j + 1] == grid[i][j + 2]) {
-                            result = "Player " + grid[i][j] + " wins";
-                        }
-                    }
-                    if (i == 0) {
-                        if ((grid[i][j] == grid[i + 1][j] && grid[i + 1][j] == grid[i + 2][j]) ||
-                                (i == j && grid[i][j] == grid[i + 1][j + 1] && grid[i + 1][j + 1] == grid[i + 2][j + 2]) ||
-                                (j == 2 && grid[i][j] == grid[i + 1][j - 1] && grid[i + 1][j - 1] == grid[i + 2][j - 2])) {
-                            result = "Player " + grid[i][j] + " wins";
-                        }
-                    }
-                    if (i!=0 && j!=0 && freeSpots==0) {
-                        result = "tie";
-                    }
-                }
+        for(int j=0;j<symbol.length;j++) {
+
+            // Check for diagonal
+            if (grid[0][0] == symbol[j] && grid[1][1] == symbol[j] && grid[2][2] == symbol[j])
+                return message[j];
+            if (grid[0][2] == symbol[j] && grid[1][1] == symbol[j] && grid[2][0] == symbol[j])
+                return message[j];
+
+            for(int i=0;i<grid.length;i++) {
+                // Check for rows
+                if (grid[0][i] == symbol[j] && grid[1][i] == symbol[j] && grid[2][i] == symbol[j])
+                    return message[j];
+
+                // Check for columns
+                if (grid[i][0] == symbol[j] && grid[i][1] == symbol[j] && grid[i][2] == symbol[j])
+                    return message[j];
+            }
+
+        }
+        // Check for tie
+        int total = 0;
+        for(int i=0;i<grid.length;i++) {
+            for(int j=0;j<grid.length;j++) {
+                if(!(grid[i][j] == '-'))
+                    total += 1;
             }
         }
+        if(total == grid.length * grid.length)
+            return "Tie";
+
 
         return result;
     }
